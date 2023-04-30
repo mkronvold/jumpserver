@@ -1,13 +1,15 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sshd-jumpserver
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: sshd-jumpserver
   template:
     metadata:
-      name: sshd-jumpserver
       labels:
         app: sshd-jumpserver
     spec:
