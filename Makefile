@@ -15,8 +15,9 @@ newkey:
 	rm -f sshkeys/id_rsa*
 	ssh-keygen -q -f sshkeys/id_rsa -N '' -t rsa
 
+eKEY := $(shell cat sshkeys/id_rsa.pub |base64 -w 0 |  tr -d \\n)
+
 gensecret:
-	KEY=$$(cat sshkeys/id_rsa.pub |base64) ;\
-	sed "s/PUBLIC_KEY/$${KEY}/" secret.yaml.tmpl	> secret.yaml
+	sed 's^PUBLIC_KEY^'"${eKEY}"'^' secret.yaml.tmpl > secret.yaml
 
 .PHONY: newkey gensecret addsshkey deploy remove
